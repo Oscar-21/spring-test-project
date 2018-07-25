@@ -14,7 +14,6 @@ public class CompanyService {
 	
 	public void addCompany(Company company) {
 		// how to verify success or check for sql failure
-		// transaction
 		companyRepository.save(company);
 	}
 }

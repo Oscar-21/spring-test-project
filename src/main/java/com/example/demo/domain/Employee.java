@@ -2,33 +2,42 @@ package com.example.demo.domain;
 
 //import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "id",
+    "name",
+    "company"
+})
 public class Employee {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("id")
 	private Long id;
+	@JsonProperty("name")
 	private String name;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
     @JoinColumn(name = "company_id")
+    @JsonBackReference
+	@JsonProperty("company")
 	private Company company;
 	
 	public Employee() {
 		
 	}
-	
-//	public Employee(String name) {
-//		//super();
-//		this.name = name;
-//	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -37,7 +46,9 @@ public class Employee {
 		this.company = company;
 	}
 	
-	
+	public Company getCompany() {
+		return this.company;
+	}
 
 	@Override
 	public int hashCode() {
@@ -63,6 +74,12 @@ public class Employee {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Employee [name=" + name + ", company=" + company + "]";
+	}
+	
 	
 	
 	
