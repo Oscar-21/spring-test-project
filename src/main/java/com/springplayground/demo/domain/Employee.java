@@ -7,26 +7,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"id", "name", "company"})
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonProperty("id")
     private Long id;
-    @JsonProperty("name")
     private String name;
     @ManyToOne
     @JoinColumn(name = "company_id")
-    @JsonBackReference
-    @JsonProperty("company")
     private Company company;
 
     public Employee() {
@@ -43,6 +33,14 @@ public class Employee {
 
     public Company getCompany() {
         return this.company;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -72,7 +70,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee [name=" + name + ", company=" + company + "]";
+        return "{ id:" + id + ", name:" + name + ", companyId:" + company.getId() + "}";
     }
 
 

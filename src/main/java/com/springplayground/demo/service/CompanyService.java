@@ -13,7 +13,6 @@ public class CompanyService {
     private CompanyRepository companyRepository;
 
     public void addCompany(Company company) {
-        // how to verify success or check for sql failure
         companyRepository.save(company);
     }
 }

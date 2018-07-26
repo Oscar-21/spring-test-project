@@ -11,17 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springplayground.demo.domain.Employee;
 import com.springplayground.demo.service.EmployeeService;
+import com.springplayground.dto.EmployeeDto;
 
 
 @RestController
 public class EmployeeController {
 
-    // @Autowired
-    // private CompanyService companyService;
     @Autowired
     private EmployeeService employeeService;
 
@@ -42,23 +39,13 @@ public class EmployeeController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/employees/{id}")
-    public String getEmployee(@PathVariable String id) {
-
-        // Map<String, String> response = new HashMap<>();
-        ObjectMapper mapper = new ObjectMapper();
+    public EmployeeDto getEmployee(@PathVariable String id) {
 
         try {
             Employee employee = employeeService.getById(Long.parseLong(id));
-            return mapper.writeValueAsString(employee);
-            // response.put("employee", mapper.writeValueAsString(employee));
-            // response.put("companyId", mapper.writeValueAsString(employee.getCompany().getId()));
-            // return mapper.writeValueAsString(response);
+            return new EmployeeDto(employee);
         } catch (NoSuchElementException e) {
-            // response.put("error", e.getMessage());
-            return "response";
-        } catch (JsonProcessingException e) {
-            // response.put("error", e.getMessage());
-            return "response";
+            return new EmployeeDto(new Employee());
         }
     }
 
